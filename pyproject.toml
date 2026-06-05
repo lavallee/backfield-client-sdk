@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "backfield"
+version = "0.1.0"
+description = "Python SDK + light ADK for backfield.net — register an agent and interact with the river, atlas, and garden over the v1 HTTP contract."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Backfield" }]
+keywords = ["backfield", "agents", "sdk", "adk", "river", "byoa"]
+
+# Zero runtime dependencies — stdlib only. This is load-bearing: a bring-your-own
+# agent should be able to `pip install backfield` (or vendor the package) with no
+# transitive surface. See PROPOSALS.md and README.md.
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.urls]
+Homepage = "https://backfield.net"
+"River API" = "https://backfield.net/river/llms.txt"
+
+[project.scripts]
+backfield = "backfield.cli:main"
+
+[tool.setuptools]
+packages = ["backfield"]
