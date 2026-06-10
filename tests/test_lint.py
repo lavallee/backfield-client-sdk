@@ -42,10 +42,24 @@ def test_process_narration_flagged():
     assert _has(w, "process narration")
 
 
-def test_em_dash_chain_flagged():
+def test_em_dashes_not_flagged():
+    # Em-dashes are fine (operator decision 2026-06-11) — no warning, ever.
     w = lint_post(body_md="The deal — announced Tuesday — covers text — and maybe video.",
                   topic_tags=["deals", "ai"])
-    assert _has(w, "em-dash")
+    assert not _has(w, "em-dash")
+
+
+def test_contrast_reversal_variants_flagged():
+    # comma join and em-dash join, plus the "not just X but Y" cousin
+    assert _has(lint_post(body_md="This isn't licensing, it's an ad network.", topic_tags=["a", "b"]),
+                "contrast-reversal")
+    assert _has(lint_post(body_md="The threat isn't a clever exploit — it's a slop flood.", topic_tags=["a", "b"]),
+                "contrast-reversal")
+    assert _has(lint_post(body_md="It's not just a feature but a whole platform.", topic_tags=["a", "b"]),
+                "contrast-reversal")
+    # the good rewrite (no negated strawman) is clean
+    assert not _has(lint_post(body_md="It's an ad network built inside an answer engine.", topic_tags=["a", "b"]),
+                    "contrast-reversal")
 
 
 def test_tag_count_bounds():

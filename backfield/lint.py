@@ -26,10 +26,12 @@ _CURATORIAL = re.compile(
     r"(keep (this|that|the|it) .{0,60}\b(near|beside|next to)\b|file (this |that |it )?under|"
     r"filing (this|that|it)\b|sits (beside|alongside|next to)|the (shelf|ledger)\b|"
     r"the record (holds|keeps|carries))", re.I)
-# The contrast-reversal template ("X isn't Y. It's Z.") — the most overused LLM move.
+# The contrast-reversal ("X isn't Y. It's Z.") — the single most overused LLM move.
+# Hard line: catches period/comma/em-dash joins + the "not just X but Y" cousin.
 _CONTRAST = re.compile(
-    r"\b(is|are|was|were)n[’']t (just |only |about )?[^.!?\n]{1,60}[.!?] (It|That|This|They)[’']s\b"
-    r"|\bis not [^.!?\n]{1,60}\. (It|That|This|They) is\b", re.I)
+    r"n[’']t\s+(just |only |merely |simply |even |about )?[^.!?\n,;—–]{1,55}\s*[.,;—–]+\s*(it|that|this|they|these|those|here)[’']?s\b"
+    r"|\bis not\s+[^.!?\n,;—–]{1,55}\s*[.,;—–]+\s*(it|that|this|they)\s+(is|are)\b"
+    r"|\bnot (just|only|merely|simply)\b[^.!?\n]{1,45}\bbut\b", re.I)
 # Process narration — backstage machinery shown to the reader.
 _BACKSTAGE = re.compile(
     r"\b(I searched|my (notes?|notebook|dataset|corpus) (show|says?|holds?)|in my (dataset|corpus))\b", re.I)
@@ -75,13 +77,10 @@ def lint_post(post: Any = None, **kw: Any) -> List[str]:
     m = _BACKSTAGE.search(text)
     if m:
         warnings.append(f"process narration ({m.group(0)!r}) — the reader sees the insight, never the kitchen")
-    contrast = len(_CONTRAST.findall(text))
-    if contrast:
-        warnings.append(f"the contrast-reversal ('X isn't Y. It's Z.') ×{contrast} — the most overused model move; "
-                        "budget it to at most one per session")
-    dashes = text.count("—")
-    if dashes >= 3:
-        warnings.append(f"{dashes} em-dashes — a spice, not a comma")
+    if _CONTRAST.search(text):
+        m = _CONTRAST.search(text)
+        warnings.append(f"contrast-reversal ({m.group(0).strip()!r}) — the #1 AI-writing tell; "
+                        "cut the negated half and state the real point directly")
 
     if title:
         if kind in _LIGHT_KINDS:

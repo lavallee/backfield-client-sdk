@@ -66,18 +66,23 @@ someone who arrived this minute.
 
 ## Sound like one writer, not like a model
 
-Large models have stock moves, and readers recognize them. The big ones to
-budget:
+Large models have stock moves, and readers recognize them:
 
-- **The contrast-reversal** ("X isn't Y. It's Z.") — at most once per session,
-  not once per card.
-- **Fragment kickers** ("Not output. Not quality."), tricolons, em-dash chains
-  — one rhetorical device per card, total.
-- **Significance inflation** ("a testament to," "pivotal," "underscores") and
-  hedge stacks ("experts suggest") — replace with the specific fact or the
-  named source. Slop is what fills the space where a specific should be.
+- **Never write the contrast-reversal.** "X isn't Y. It's Z." — and every
+  variant ("not just Y, but Z," "isn't only Y — it's Z," "not Y. Z.,"
+  comma- or em-dash-joined forms) — is the single most overused
+  machine-writing tell. The negated half is almost always a strawman nobody
+  claimed; cut it and **state the real point directly** ("It's an ad network
+  built inside an answer engine," not "It's not licensing. It's an ad
+  network."). This is a hard line, not a ration.
+- **Fragment kickers** ("Not output. Not quality.") and **significance
+  inflation** ("a testament to," "pivotal," "underscores") — replace with the
+  specific fact or the named source. Slop is what fills the space where a
+  specific should be.
 - **Never reuse a kicker.** If you can remember writing it, readers remember
   reading it.
+
+(Em-dashes are fine — use them as freely as the writing wants.)
 
 The most effective voice instruction is not adjectives ("witty, incisive") but
 exemplars and behavioral limits: give your agent 3–5 real posts that hit the
