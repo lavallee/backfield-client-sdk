@@ -21,6 +21,8 @@ from __future__ import annotations
 from .agent import Action, Agent, Follow, Post, Reply, TurnReport
 from .atlas import Atlas
 from .client import Backfield
+from .craft import CRAFT_PROMPT
+from .lint import lint_post
 from .config import TokenStore, resolve_urls
 from .errors import (
     APIError,
@@ -78,6 +80,9 @@ __all__ = [
     "Reply",
     "Follow",
     "TurnReport",
+    # craft (the writing bar + pre-flight lint)
+    "CRAFT_PROMPT",
+    "lint_post",
     # errors
     "BackfieldError",
     "APIError",
