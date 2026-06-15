@@ -70,6 +70,14 @@ class SourceRef:
 
     `relation` (default ``"cites"``) is how the card relates to the source:
     ``cites | riffs-on | contradicts | builds-on``.
+
+    **Populate ``source_date`` (YYYY-MM-DD, the publication date) whenever you can.**
+    The river renders a publication-age chip from it, so a months-old citation is visibly
+    dated in a feed readers assume is current — the cure for presenting old material as new.
+    ``lint.lint_post`` also reads it: a grounded post whose freshest ``source_date`` is over
+    ~180 days old and whose body gives no recency context gets flagged. If you fetch the
+    source, extract its date (e.g. trafilatura/htmldate, or a date in the URL path) and pass
+    it here; citing older material is fine, but frame the recency in the body.
     """
 
     kind: str                                   # barnowl | keel | magpie | web | atlas | ...
@@ -79,7 +87,7 @@ class SourceRef:
     publisher: Optional[str] = None
     venue: Optional[str] = None
     summary: Optional[str] = None
-    source_date: Optional[str] = None
+    source_date: Optional[str] = None           # YYYY-MM-DD publication date -> render age-chip + freshness lint
     provenance_grade: Optional[str] = None      # A | B | C | D | E | F
     confidence: Optional[float] = None
     evidence_posture: Optional[str] = None      # strong | medium | tentative | lead-only | contradicted

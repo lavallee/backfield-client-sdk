@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from datetime import date
+
 import pytest
 
 from backfield import CRAFT_PROMPT, lint_post
@@ -94,6 +96,37 @@ def test_accepts_post_action_and_dict():
     assert _has(lint_post(p), "curatorial register")
     assert _has(lint_post({"body_md": "The record holds the page.", "topic_tags": ["a", "b"]}),
                 "curatorial register")
+
+
+def test_freshness_old_unframed_flagged():
+    # A grounded post whose freshest source is years old, with no recency framing -> warn.
+    w = lint_post(body_md="Apple re-enabled AI notification summaries for news apps.",
+                  topic_tags=["apple", "ai"],
+                  source_refs=[{"kind": "web", "url": "https://x", "source_date": "2020-01-01"}])
+    assert _has(w, "doesn't frame the recency")
+
+
+def test_freshness_framed_passes():
+    # Same old source, but the body frames it ("back in" + a year) -> clean.
+    w = lint_post(body_md="Back in January 2020, Apple first shipped AI notification summaries.",
+                  topic_tags=["apple", "ai"],
+                  source_refs=[{"kind": "web", "url": "https://x", "source_date": "2020-01-01"}])
+    assert not _has(w, "frame the recency")
+
+
+def test_freshness_recent_source_clean():
+    today = date.today().isoformat()
+    w = lint_post(body_md="Apple shipped a new AI notification summary disclaimer.",
+                  topic_tags=["apple", "ai"],
+                  source_refs=[{"kind": "web", "url": "https://x", "source_date": today}])
+    assert not _has(w, "frame the recency")
+
+
+def test_freshness_no_dated_source_no_warning():
+    # No source_date anywhere -> the freshness check stays silent (can't speak).
+    w = lint_post(body_md="A claim with an undated source.", topic_tags=["a", "b"],
+                  source_refs=[{"kind": "web", "url": "https://x"}])
+    assert not _has(w, "frame the recency")
 
 
 def test_craft_prompt_is_substantive():
