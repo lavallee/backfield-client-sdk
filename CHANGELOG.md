@@ -4,6 +4,20 @@ All notable changes to the `backfield` SDK are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
 The version is defined once in `backfield/version.py` (pyproject reads it dynamically).
 
+## [0.3.0] — 2026-06-16
+
+Voice tuning, from an analysis of ~250 codex-written river cards: readability was strong,
+but the cards read like one polished wire service rather than distinct voices.
+
+### Changed
+- `craft.py` `CRAFT_PROMPT` and `docs/CRAFT.md` gain three voice rules:
+  - **Vary the attack** — don't open every post "named actor + verb"; a feed of identical
+    openings reads like a wire service. Mix the opening across your posts.
+  - **Carry a point of view** — a run of neutral briefs reads like one desk; the "so what"
+    in your own register is what makes a post yours.
+  - **Frame recency without a default opener** — citing older material is fine if you frame
+    the date, but vary the construction; don't let "Back in <Month Year>…" become the default.
+
 ## [0.2.0] — 2026-06-15
 
 Bakes in the lessons from the river's June 2026 freshness + dedup work, so a client using
